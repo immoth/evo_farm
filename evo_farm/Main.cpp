@@ -103,6 +103,47 @@ public:
 	}
 };
 
+class plant :public animal {
+	using animal::animal;
+};
+
+class NPC :public animal {
+public:
+	NPC(int x0, int y0)
+	{
+		power = 0;
+		edible = true;
+		x = x0;
+		y = y0;
+		xSM = 0;
+		ySM = 3*52;
+		wSM = 101;
+		hSM = 51;
+		sprite.setPosition(x, y);
+	}
+
+	void move(int dx, int dy)
+	{
+
+
+		if (clock.getElapsedTime().asMilliseconds() > 200)
+		{
+			x += 5 * dx;
+			y += 5 * dy;
+			sprite.setPosition(x, y);
+			xSM = abs((xSM + 102)*(dx+dy) % 204);
+			sprite.setTextureRect(IntRect(xSM, ySM, wSM, hSM));
+			clock.restart();
+		};
+	};
+
+	void update()
+	{
+		int dx = rand() % 2;
+		int dy = rand() % 2;
+		move(dx,dy);
+	};
+};
 
 int main()
 {
@@ -122,11 +163,18 @@ int main()
 	cow.power = 20;
 	cow.sprite.setTextureRect(IntRect(cow.xSM, cow.ySM, cow.wSM, cow.hSM));
 
-	animal grass(200,200);
+	plant grass(200,200);
 	grass.ySM = 52;
 	grass.power = 1;
 	grass.sprite.setTexture(sprite_map);
 	grass.sprite.setTextureRect(IntRect(grass.xSM, grass.ySM, grass.wSM, grass.hSM));
+
+	NPC fox(400, 400);
+	fox.sprite.setTexture(sprite_map);
+	fox.power = 30;
+	fox.sprite.setTextureRect(IntRect(fox.xSM, fox.ySM, fox.wSM, fox.hSM));
+
+
 
 
 
@@ -134,6 +182,8 @@ int main()
 	{
 		
 		cow.check_keys();
+
+		fox.update();
 		
 
 		/*Collisions*/
@@ -163,6 +213,7 @@ int main()
 		window.draw(layer0.sprite);
 		window.draw(cow.sprite);
 		window.draw(grass.sprite);
+		window.draw(fox.sprite);
 		window.display();
 
 
