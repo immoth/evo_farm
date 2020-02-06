@@ -69,15 +69,29 @@ class player:public animal {
 public:
 	void move(int dx, int dy)
 	{
-
-
 		if (clock.getElapsedTime().asMilliseconds() > 200)
 		{
 			x += 5 * dx;
 			y += 5 * dy;
-			sprite.setPosition(x, y);
-			xSM = abs((xSM + 102) % 204);
-			sprite.setTextureRect(IntRect(xSM, ySM, wSM, hSM));
+			if (y > 40)
+			{
+				if (x > 40)
+				{
+					if (x < 640)
+					{
+						if (y < 440)
+						{
+							sprite.setPosition(x, y);
+							xSM = abs((xSM + 102) % 204);
+							sprite.setTextureRect(IntRect(xSM, ySM, wSM, hSM));
+						}
+						else(y = 439);
+					}
+					else(x = 639);
+				}
+				else(x = 41);
+			}
+			else(y = 41);
 			clock.restart();
 		};
 	};
@@ -109,12 +123,16 @@ class plant :public animal {
 
 class NPC :public animal {
 public:
+	int px;
+	int py;
 	NPC(int x0, int y0)
 	{
 		power = 0;
 		edible = true;
 		x = x0;
 		y = y0;
+		px = 0;
+		py = 0;
 		xSM = 0;
 		ySM = 3*52;
 		wSM = 101;
@@ -124,23 +142,40 @@ public:
 
 	void move(int dx, int dy)
 	{
-
-
 		if (clock.getElapsedTime().asMilliseconds() > 200)
 		{
-			x += 5 * dx;
-			y += 5 * dy;
-			sprite.setPosition(x, y);
-			xSM = abs((xSM + 102)*(dx+dy) % 204);
-			sprite.setTextureRect(IntRect(xSM, ySM, wSM, hSM));
+			px += dx;
+			py += dy;
+			x += 5 * dx+px;
+			y += 5 * dy+py;
+			cout << "px=" <<px << " dx=" << dx << " py=" << py << " dy=" << dy << endl;
+			if (y > 40)
+			{
+				if (x > 40)
+				{
+					if (x < 640)
+					{
+						if (y < 440)
+						{
+							sprite.setPosition(x, y);
+							xSM = abs((xSM + 102) * (dx + dy) % 204);
+							sprite.setTextureRect(IntRect(xSM, ySM, wSM, hSM));
+						}
+						else { y = 439; py = -2; };
+					}
+					else { x = 639; px = -2; };
+				}
+				else { x = 41; px = 2; };
+			}
+			else { y = 41; py = 2; };
 			clock.restart();
 		};
 	};
 
 	void update()
 	{
-		int dx = rand() % 2;
-		int dy = rand() % 2;
+		int dx =1-rand() % 3;
+		int dy =1-rand() % 3;
 		move(dx,dy);
 	};
 };
