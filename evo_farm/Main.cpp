@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <list>
 
 using namespace sf;
 using namespace std;
@@ -56,6 +57,7 @@ public:
 
 	void getAte(int butt_x, int butt_y)
 	{
+		cout << "YUM!";
 		edible = false;
 		ySM = 104;
 		x = butt_x;
@@ -148,7 +150,6 @@ public:
 			py += dy;
 			x += 5 * dx+px;
 			y += 5 * dy+py;
-			cout << "px=" <<px << " dx=" << dx << " py=" << py << " dy=" << dy << endl;
 			if (y > 40)
 			{
 				if (x > 40)
@@ -180,10 +181,39 @@ public:
 	};
 };
 
+class god {
+public:
+	void collision_check(animal &A1, animal &A2)
+	{
+		if (abs(A1.x - A2.x) < 30)
+		{
+			if (abs(A1.y - A2.y) < 50)
+			{
+				if (A1.power > A2.power)
+				{
+					if (A2.edible)
+					{
+						A2.getAte(A1.x - 50, A1.y);
+					}
+				}
+				else
+				{
+					if (A1.edible)
+					{
+						A1.getAte(A2.x - 50, A2.y);
+					}
+				}
+			}
+		}
+	}
+};
+
 int main()
 {
 	RenderWindow window(sf::VideoMode(800, 600), "Title");
 	Event event;
+
+	god gamegod;
 
 	Texture texture;
 	texture.loadFromFile("C:/Users/jsten/Documents/games/evo_farm/evo_farm/layer0.gif");
@@ -210,7 +240,7 @@ int main()
 	fox.sprite.setTextureRect(IntRect(fox.xSM, fox.ySM, fox.wSM, fox.hSM));
 
 
-
+	animal* ents[3] = { &cow, &grass, &fox };
 
 
 	while (window.isOpen())
@@ -221,27 +251,15 @@ int main()
 		fox.update();
 		
 
-		/*Collisions*/
-		if (abs(cow.x - grass.x) < 30)
+		/*Collisions*/ 
+		for (int i = 0; i < 3; i++)
 		{
-			if (abs(cow.y - grass.y) < 50)
+			for (int j = i+1; j < 3; j++)
 			{
-				if (cow.power > grass.power)
-				{
-					if (grass.edible)
-					{
-						grass.getAte(cow.x - 50, cow.y);
-					}
-				}
-				else
-				{
-					if (cow.edible)
-					{
-						cow.getAte(grass.x - 50, grass.y);
-					}
-				}
+				gamegod.collision_check(*ents[i], *ents[j]);
 			}
 		}
+		
 
 
 		window.clear();
