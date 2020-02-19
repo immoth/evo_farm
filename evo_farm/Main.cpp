@@ -1,6 +1,8 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <list>
+#include <vector>
+#include <iterator>
 
 using namespace sf;
 using namespace std;
@@ -23,6 +25,7 @@ public:
 	int hSM;
 	int power;
 	bool edible;
+	bool moveable;
 
 	animal()
 	{
@@ -55,13 +58,27 @@ public:
 
 	};
 
-	void getAte(int butt_x, int butt_y)
+	virtual void update()
 	{
-		cout << "YUM!";
+
+	};
+
+	void getAte(int butt_x, int butt_y, int ySM_new)
+	{
 		edible = false;
-		ySM = 104;
+		ySM = ySM_new;
 		x = butt_x;
 		y = butt_y;
+		sprite.setPosition(x, y);
+		sprite.setTextureRect(IntRect(xSM, ySM, wSM, hSM));
+	}
+
+	void getAte(animal Eater)
+	{
+		ySM = Eater.ySM;
+		x = Eater.x-30;
+		y = Eater.y+20;
+		moveable = true;
 		sprite.setPosition(x, y);
 		sprite.setTextureRect(IntRect(xSM, ySM, wSM, hSM));
 	}
@@ -117,6 +134,10 @@ public:
 			move(-1, 0);
 		}
 	}
+	void update()
+	{
+		check_keys();
+	};
 };
 
 class plant :public animal {
@@ -140,6 +161,7 @@ public:
 		wSM = 101;
 		hSM = 51;
 		sprite.setPosition(x, y);
+		moveable = true;
 	}
 
 	void move(int dx, int dy)
@@ -148,8 +170,8 @@ public:
 		{
 			px += dx;
 			py += dy;
-			x += 5 * dx+px;
-			y += 5 * dy+py;
+			x += 5 * dx + px;
+			y += 5 * dy + py;
 			if (y > 40)
 			{
 				if (x > 40)
@@ -177,7 +199,10 @@ public:
 	{
 		int dx =1-rand() % 3;
 		int dy =1-rand() % 3;
-		move(dx,dy);
+		if (moveable == true)
+		{
+			move(dx, dy);
+		}
 	};
 };
 
@@ -193,17 +218,35 @@ public:
 				{
 					if (A2.edible)
 					{
-						A2.getAte(A1.x - 50, A1.y);
+						A2.getAte(A1);
 					}
 				}
 				else
 				{
 					if (A1.edible)
 					{
-						A1.getAte(A2.x - 50, A2.y);
+						A1.getAte(A2);
 					}
 				}
 			}
+		}
+	}
+	void check_all_collisions(animal* ents[], int L)
+	{
+		for (int i = 0; i < L; i++)
+		{
+			for (int j = i + 1; j < L; j++)
+			{
+				collision_check(*ents[i], *ents[j]);
+			}
+		}
+	}
+
+	void update_all(animal *ents[],int L)
+	{
+		for (int i = 0; i < L; i++)
+		{
+			(*ents[i]).update();
 		}
 	}
 };
@@ -228,8 +271,9 @@ int main()
 	cow.power = 20;
 	cow.sprite.setTextureRect(IntRect(cow.xSM, cow.ySM, cow.wSM, cow.hSM));
 
-	plant grass(200,200);
+	NPC grass(200,200);
 	grass.ySM = 52;
+	grass.moveable = false;
 	grass.power = 1;
 	grass.sprite.setTexture(sprite_map);
 	grass.sprite.setTextureRect(IntRect(grass.xSM, grass.ySM, grass.wSM, grass.hSM));
@@ -245,20 +289,11 @@ int main()
 
 	while (window.isOpen())
 	{
-		
-		cow.check_keys();
-
-		fox.update();
+		gamegod.update_all(ents, size(ents));
 		
 
 		/*Collisions*/ 
-		for (int i = 0; i < 3; i++)
-		{
-			for (int j = i+1; j < 3; j++)
-			{
-				gamegod.collision_check(*ents[i], *ents[j]);
-			}
-		}
+		gamegod.check_all_collisions(ents,size(ents));
 		
 
 
