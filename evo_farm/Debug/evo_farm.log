@@ -1,16 +1,16 @@
 ﻿  Main.cpp
-C:\Users\jsten\Documents\games\evo_farm\evo_farm\Main.cpp(40,25): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\jsten\Documents\games\evo_farm\evo_farm\Main.cpp(40,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\jsten\Documents\games\evo_farm\evo_farm\Main.cpp(53,25): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\jsten\Documents\games\evo_farm\evo_farm\Main.cpp(53,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\jsten\Documents\games\evo_farm\evo_farm\Main.cpp(72,25): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\jsten\Documents\games\evo_farm\evo_farm\Main.cpp(72,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\jsten\Documents\games\evo_farm\evo_farm\Main.cpp(82,25): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\jsten\Documents\games\evo_farm\evo_farm\Main.cpp(82,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\jsten\Documents\games\evo_farm\evo_farm\Main.cpp(103,30): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\jsten\Documents\games\evo_farm\evo_farm\Main.cpp(103,27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\jsten\Documents\games\evo_farm\evo_farm\Main.cpp(163,25): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\jsten\Documents\games\evo_farm\evo_farm\Main.cpp(163,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\jsten\Documents\games\evo_farm\evo_farm\Main.cpp(183,30): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\jsten\Documents\games\evo_farm\evo_farm\Main.cpp(183,27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\jsten\Documents\games\evo_farm\evo_farm\Main.cpp(49,25): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\jsten\Documents\games\evo_farm\evo_farm\Main.cpp(49,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\jsten\Documents\games\evo_farm\evo_farm\Main.cpp(62,25): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\jsten\Documents\games\evo_farm\evo_farm\Main.cpp(62,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\jsten\Documents\games\evo_farm\evo_farm\Main.cpp(81,25): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\jsten\Documents\games\evo_farm\evo_farm\Main.cpp(81,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\jsten\Documents\games\evo_farm\evo_farm\Main.cpp(93,25): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\jsten\Documents\games\evo_farm\evo_farm\Main.cpp(93,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\jsten\Documents\games\evo_farm\evo_farm\Main.cpp(118,30): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\jsten\Documents\games\evo_farm\evo_farm\Main.cpp(118,27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\jsten\Documents\games\evo_farm\evo_farm\Main.cpp(179,25): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\jsten\Documents\games\evo_farm\evo_farm\Main.cpp(179,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\jsten\Documents\games\evo_farm\evo_farm\Main.cpp(199,30): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\jsten\Documents\games\evo_farm\evo_farm\Main.cpp(199,27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   evo_farm.vcxproj -> C:\Users\jsten\Documents\games\evo_farm\Debug\evo_farm.exe

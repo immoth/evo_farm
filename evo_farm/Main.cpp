@@ -7,6 +7,14 @@
 using namespace sf;
 using namespace std;
 
+int sign(int x)
+{
+	if (x > 0) return 1;
+	if (x < 0) return -1;
+	return 0;
+}
+
+
 class background{
 public:
 	Sprite sprite;
@@ -26,6 +34,7 @@ public:
 	int power;
 	bool edible;
 	bool moveable;
+	int follow;
 
 	animal()
 	{
@@ -58,7 +67,7 @@ public:
 
 	};
 
-	virtual void update()
+	virtual void update(animal a1)
 	{
 
 	};
@@ -78,6 +87,8 @@ public:
 		ySM = Eater.ySM;
 		x = Eater.x-30;
 		y = Eater.y+20;
+		edible = false;
+		follow = Eater.follow - 1 + rand() % 3;
 		moveable = true;
 		sprite.setPosition(x, y);
 		sprite.setTextureRect(IntRect(xSM, ySM, wSM, hSM));
@@ -86,6 +97,10 @@ public:
 
 class player:public animal {
 public:
+	player()
+	{
+		follow = 35;
+	}
 	void move(int dx, int dy)
 	{
 		if (clock.getElapsedTime().asMilliseconds() > 200)
@@ -134,7 +149,7 @@ public:
 			move(-1, 0);
 		}
 	}
-	void update()
+	void update(animal p1)
 	{
 		check_keys();
 	};
@@ -160,6 +175,7 @@ public:
 		ySM = 3*52;
 		wSM = 101;
 		hSM = 51;
+		follow = 0;
 		sprite.setPosition(x, y);
 		moveable = true;
 	}
@@ -195,10 +211,21 @@ public:
 		};
 	};
 
-	void update()
+	void update(animal p1)
 	{
-		int dx =1-rand() % 3;
-		int dy =1-rand() % 3;
+		int dx = 0;
+		int dy = 0;
+		if (follow > rand() % 100)
+		{
+			dx = sign(p1.x - x);
+			dy = sign(p1.y - y);
+		}
+		else
+		{
+			dx = 1 - rand() % 3 ;
+			dy = 1 - rand() % 3 ;
+		}
+
 		if (moveable == true)
 		{
 			move(dx, dy);
@@ -246,7 +273,7 @@ public:
 	{
 		for (int i = 0; i < L; i++)
 		{
-			(*ents[i]).update();
+			(*ents[i]).update(*ents[0]);
 		}
 	}
 };
@@ -282,6 +309,7 @@ int main()
 	fox.sprite.setTexture(sprite_map);
 	fox.power = 30;
 	fox.sprite.setTextureRect(IntRect(fox.xSM, fox.ySM, fox.wSM, fox.hSM));
+	fox.follow = 30;
 
 
 	animal* ents[3] = { &cow, &grass, &fox };
