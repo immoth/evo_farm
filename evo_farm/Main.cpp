@@ -117,19 +117,19 @@ public:
 	{
 		if (Keyboard::isKeyPressed(Keyboard::Down))
 		{
-			move(0, 1);
+			move(0, 2);
 		}
 		else if (Keyboard::isKeyPressed(Keyboard::Up))
 		{
-			move(0, -1);
+			move(0, -2);
 		}
 		if (Keyboard::isKeyPressed(Keyboard::Right))
 		{
-			move(1, 0);
+			move(2, 0);
 		}
 		else if (Keyboard::isKeyPressed(Keyboard::Left))
 		{
-			move(-1, 0);
+			move(-2, 0);
 		}
 	}
 	void update(animal p1)
@@ -142,7 +142,7 @@ public:
 		ySM = Eater.ySM;
 		x = Eater.x - 30;
 		y = Eater.y + 20;
-		edible = false;
+		power = Eater.power - 1 + rand() % 3;
 		follow = Eater.follow - 1 + rand() % 3;
 		moveable = true;
 		sprite.setPosition(x, y);
@@ -150,9 +150,6 @@ public:
 	}
 };
 
-class plant :public animal {
-	using animal::animal;
-};
 
 class NPC :public animal {
 public:
@@ -212,7 +209,7 @@ public:
 		ySM = Eater.ySM;
 		x = Eater.x - 30;
 		y = Eater.y + 20;
-		edible = false;
+		power = Eater.power - 1 + rand() % 3;
 		follow = Eater.follow - 1 + rand() % 3;
 		moveable = true;
 		sprite.setPosition(x, y);
@@ -249,7 +246,7 @@ public:
 		{
 			if (abs(A1.y - A2.y) < 50)
 			{
-				if (A1.power > A2.power)
+				if (A1.power > A2.power+20)
 				{
 					if (A2.edible)
 					{
@@ -257,7 +254,7 @@ public:
 						parents[j] = &A1;
 					}
 				}
-				else
+				else if(A2.power > A1.power + 20)
 				{
 					if (A1.edible)
 					{
@@ -288,6 +285,7 @@ public:
 	}
 };
 
+
 int main()
 {
 	RenderWindow window(sf::VideoMode(800, 600), "Title");
@@ -305,7 +303,7 @@ int main()
 
 	player cow;
 	cow.sprite.setTexture(sprite_map);
-	cow.power = 20;
+	cow.power = 25;
 	cow.sprite.setTextureRect(IntRect(cow.xSM, cow.ySM, cow.wSM, cow.hSM));
 
 	NPC grass(200,200);
@@ -315,14 +313,63 @@ int main()
 	grass.sprite.setTexture(sprite_map);
 	grass.sprite.setTextureRect(IntRect(grass.xSM, grass.ySM, grass.wSM, grass.hSM));
 
-	NPC fox(400, 400);
+	NPC g2(400, 350);
+	g2.ySM = 52;
+	g2.moveable = false;
+	g2.power = 1;
+	g2.sprite.setTexture(sprite_map);
+	g2.sprite.setTextureRect(IntRect(g2.xSM, g2.ySM, g2.wSM, g2.hSM));
+
+	NPC g3(350, 200);
+	g3.ySM = 52;
+	g3.moveable = false;
+	g3.power = 1;
+	g3.sprite.setTexture(sprite_map);
+	g3.sprite.setTextureRect(IntRect(g3.xSM, g3.ySM, g3.wSM, g3.hSM));
+
+	NPC g4(250, 300);
+	g4.ySM = 52;
+	g4.moveable = false;
+	g4.power = 1;
+	g4.sprite.setTexture(sprite_map);
+	g4.sprite.setTextureRect(IntRect(g4.xSM, g4.ySM, g4.wSM, g4.hSM));
+
+	NPC g5(450, 150);
+	g5.ySM = 52;
+	g5.moveable = false;
+	g5.power = 1;
+	g5.sprite.setTexture(sprite_map);
+	g5.sprite.setTextureRect(IntRect(g5.xSM, g5.ySM, g5.wSM, g5.hSM));
+
+	NPC g6(420, 350);
+	g6.ySM = 52;
+	g6.moveable = false;
+	g6.power = 1;
+	g6.sprite.setTexture(sprite_map);
+	g6.sprite.setTextureRect(IntRect(g6.xSM, g6.ySM, g6.wSM, g6.hSM));
+
+	NPC g7(150, 380);
+	g7.ySM = 52;
+	g7.moveable = false;
+	g7.power = 1;
+	g7.sprite.setTexture(sprite_map);
+	g7.sprite.setTextureRect(IntRect(g7.xSM, g7.ySM, g7.wSM, g7.hSM));
+
+	NPC g8(370, 80);
+	g8.ySM = 52;
+	g8.moveable = false;
+	g8.power = 1;
+	g8.sprite.setTexture(sprite_map);
+	g8.sprite.setTextureRect(IntRect(g8.xSM, g8.ySM, g8.wSM, g8.hSM));
+
+	NPC fox(450, 450);
 	fox.sprite.setTexture(sprite_map);
-	fox.power = 30;
+	fox.power = 75;
 	fox.sprite.setTextureRect(IntRect(fox.xSM, fox.ySM, fox.wSM, fox.hSM));
 
 
-	animal* ents[3] = { &cow, &grass, &fox };
-	animal* parents[3] = { &cow, &grass, &fox };  
+	animal* ents[10] = { &cow, &grass, &g2, &g3, &g4, &g5, &g6, &g7, &g8, &fox };
+	animal* parents[10] = { &cow, &grass, &g2, &g3, &g4, &g5, &g6, &g7, &g8, &fox };
 
 	while (window.isOpen())
 	{
@@ -336,9 +383,13 @@ int main()
 
 		window.clear();
 		window.draw(layer0.sprite);
-		window.draw(cow.sprite);
-		window.draw(grass.sprite);
-		window.draw(fox.sprite);
+		//window.draw(cow.sprite);
+		//window.draw(grass.sprite);
+		//window.draw(fox.sprite);
+		for (int i = 0; i < size(ents); i++)
+		{
+			window.draw((*ents[i]).sprite);
+		}
 		window.display();
 
 
