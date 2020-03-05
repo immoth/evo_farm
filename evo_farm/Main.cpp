@@ -72,26 +72,9 @@ public:
 
 	};
 
-	void getAte(int butt_x, int butt_y, int ySM_new)
+	virtual void getAte(animal Eater)
 	{
-		edible = false;
-		ySM = ySM_new;
-		x = butt_x;
-		y = butt_y;
-		sprite.setPosition(x, y);
-		sprite.setTextureRect(IntRect(xSM, ySM, wSM, hSM));
-	}
 
-	void getAte(animal Eater)
-	{
-		ySM = Eater.ySM;
-		x = Eater.x-30;
-		y = Eater.y+20;
-		edible = false;
-		follow = Eater.follow - 1 + rand() % 3;
-		moveable = true;
-		sprite.setPosition(x, y);
-		sprite.setTextureRect(IntRect(xSM, ySM, wSM, hSM));
 	}
 };
 
@@ -99,7 +82,7 @@ class player:public animal {
 public:
 	player()
 	{
-		follow = 35;
+		follow = 45;
 	}
 	void move(int dx, int dy)
 	{
@@ -153,6 +136,18 @@ public:
 	{
 		check_keys();
 	};
+
+	void getAte(animal Eater)
+	{
+		ySM = Eater.ySM;
+		x = Eater.x - 30;
+		y = Eater.y + 20;
+		edible = false;
+		follow = Eater.follow - 1 + rand() % 3;
+		moveable = true;
+		sprite.setPosition(x, y);
+		sprite.setTextureRect(IntRect(xSM, ySM, wSM, hSM));
+	}
 };
 
 class plant :public animal {
@@ -163,6 +158,7 @@ class NPC :public animal {
 public:
 	int px;
 	int py;
+	bool has_parent;
 	NPC(int x0, int y0)
 	{
 		power = 0;
@@ -211,6 +207,18 @@ public:
 		};
 	};
 
+	void getAte(animal Eater)
+	{
+		ySM = Eater.ySM;
+		x = Eater.x - 30;
+		y = Eater.y + 20;
+		edible = false;
+		follow = Eater.follow - 1 + rand() % 3;
+		moveable = true;
+		sprite.setPosition(x, y);
+		sprite.setTextureRect(IntRect(xSM, ySM, wSM, hSM));
+	}
+
 	void update(animal p1)
 	{
 		int dx = 0;
@@ -235,7 +243,7 @@ public:
 
 class god {
 public:
-	void collision_check(animal &A1, animal &A2)
+	void collision_check(animal &A1, animal &A2, animal* parents[], int i, int j)
 	{
 		if (abs(A1.x - A2.x) < 30)
 		{
@@ -246,6 +254,7 @@ public:
 					if (A2.edible)
 					{
 						A2.getAte(A1);
+						parents[j] = &A1;
 					}
 				}
 				else
@@ -253,27 +262,28 @@ public:
 					if (A1.edible)
 					{
 						A1.getAte(A2);
+						parents[i] = &A2;
 					}
 				}
 			}
 		}
 	}
-	void check_all_collisions(animal* ents[], int L)
+	void check_all_collisions(animal* ents[], animal* parents[], int L)
 	{
 		for (int i = 0; i < L; i++)
 		{
 			for (int j = i + 1; j < L; j++)
 			{
-				collision_check(*ents[i], *ents[j]);
+				collision_check(*ents[i], *ents[j], parents, i, j);
 			}
 		}
 	}
 
-	void update_all(animal *ents[],int L)
+	void update_all(animal *ents[], animal* parents[],int L)
 	{
 		for (int i = 0; i < L; i++)
 		{
-			(*ents[i]).update(*ents[0]);
+			(*ents[i]).update(*parents[i]);
 		}
 	}
 };
@@ -309,19 +319,18 @@ int main()
 	fox.sprite.setTexture(sprite_map);
 	fox.power = 30;
 	fox.sprite.setTextureRect(IntRect(fox.xSM, fox.ySM, fox.wSM, fox.hSM));
-	fox.follow = 30;
 
 
 	animal* ents[3] = { &cow, &grass, &fox };
-
+	animal* parents[3] = { &cow, &grass, &fox };  
 
 	while (window.isOpen())
 	{
-		gamegod.update_all(ents, size(ents));
+		gamegod.update_all(ents, parents, size(ents));
 		
 
 		/*Collisions*/ 
-		gamegod.check_all_collisions(ents,size(ents));
+		gamegod.check_all_collisions(ents,parents,size(ents));
 		
 
 
