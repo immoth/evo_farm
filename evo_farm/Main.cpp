@@ -42,10 +42,10 @@ public:
 		edible = true;
 		x = 100;
 		y = 100;
-		xSM = 0;
-		ySM = 0;
-		wSM = 101;
-		hSM = 51;
+		xSM = 1;
+		ySM = 201;
+		wSM = 99;
+		hSM = 99;
 		sprite.setPosition(x, y);
 	}
 
@@ -55,10 +55,10 @@ public:
 		edible = true;
 		x = x0;
 		y = y0;
-		xSM = 0;
-		ySM = 0;
-		wSM = 101;
-		hSM = 51;
+		xSM = 201;
+		ySM = 99;
+		wSM = 99;
+		hSM = 99;
 		sprite.setPosition(x, y);
 	}
 
@@ -99,7 +99,7 @@ public:
 						if (y < 440)
 						{
 							sprite.setPosition(x, y);
-							xSM = abs((xSM + 102) % 204);
+							xSM = abs((xSM + 100) % 400);
 							sprite.setTextureRect(IntRect(xSM, ySM, wSM, hSM));
 						}
 						else(y = 439);
@@ -139,10 +139,18 @@ public:
 
 	void getAte(animal Eater)
 	{
-		ySM = Eater.ySM;
+		ySM = Eater.ySM + (1 - rand() % 3) * 100;
+		if (ySM < 199)
+		{
+			ySM = 201;
+		}
+		if (ySM > 1010)
+		{
+			ySM = 1001;
+		}
 		x = Eater.x - 30;
 		y = Eater.y + 20;
-		power = Eater.power - 1 + rand() % 3;
+		power = ySM;
 		follow = Eater.follow - 1 + rand() % 3;
 		moveable = true;
 		sprite.setPosition(x, y);
@@ -164,10 +172,10 @@ public:
 		y = y0;
 		px = 0;
 		py = 0;
-		xSM = 0;
-		ySM = 3*52;
-		wSM = 101;
-		hSM = 51;
+		xSM = 1;
+		ySM = 201;
+		wSM = 99;
+		hSM = 99;
 		follow = 0;
 		sprite.setPosition(x, y);
 		moveable = true;
@@ -190,7 +198,7 @@ public:
 						if (y < 440)
 						{
 							sprite.setPosition(x, y);
-							xSM = abs((xSM + 102) * (dx + dy) % 204);
+							xSM = abs((xSM + 100)  % 400);
 							sprite.setTextureRect(IntRect(xSM, ySM, wSM, hSM));
 						}
 						else { y = 439; py = -2; };
@@ -206,10 +214,18 @@ public:
 
 	void getAte(animal Eater)
 	{
-		ySM = Eater.ySM;
+		ySM = Eater.ySM + (1 - rand() % 3)*100;
+		if (ySM < 199)
+		{
+			ySM = 201;
+		}
+		if (ySM > 1010)
+		{
+			ySM = 1001;
+		}
 		x = Eater.x - 30;
 		y = Eater.y + 20;
-		power = Eater.power - 1 + rand() % 3;
+		power = ySM;
 		follow = Eater.follow - 1 + rand() % 3;
 		moveable = true;
 		sprite.setPosition(x, y);
@@ -304,59 +320,60 @@ int main()
 	player cow;
 	cow.sprite.setTexture(sprite_map);
 	cow.power = 25;
+	cow.ySM = 301;
 	cow.sprite.setTextureRect(IntRect(cow.xSM, cow.ySM, cow.wSM, cow.hSM));
 
 	NPC grass(200,200);
-	grass.ySM = 52;
+	grass.ySM = 201;
 	grass.moveable = false;
 	grass.power = 1;
 	grass.sprite.setTexture(sprite_map);
 	grass.sprite.setTextureRect(IntRect(grass.xSM, grass.ySM, grass.wSM, grass.hSM));
 
 	NPC g2(400, 350);
-	g2.ySM = 52;
+	g2.ySM = 201;
 	g2.moveable = false;
 	g2.power = 1;
 	g2.sprite.setTexture(sprite_map);
 	g2.sprite.setTextureRect(IntRect(g2.xSM, g2.ySM, g2.wSM, g2.hSM));
 
 	NPC g3(350, 200);
-	g3.ySM = 52;
+	g3.ySM = 201;
 	g3.moveable = false;
 	g3.power = 1;
 	g3.sprite.setTexture(sprite_map);
 	g3.sprite.setTextureRect(IntRect(g3.xSM, g3.ySM, g3.wSM, g3.hSM));
 
 	NPC g4(250, 300);
-	g4.ySM = 52;
+	g4.ySM = 201;
 	g4.moveable = false;
 	g4.power = 1;
 	g4.sprite.setTexture(sprite_map);
 	g4.sprite.setTextureRect(IntRect(g4.xSM, g4.ySM, g4.wSM, g4.hSM));
 
 	NPC g5(450, 150);
-	g5.ySM = 52;
+	g5.ySM = 201;
 	g5.moveable = false;
 	g5.power = 1;
 	g5.sprite.setTexture(sprite_map);
 	g5.sprite.setTextureRect(IntRect(g5.xSM, g5.ySM, g5.wSM, g5.hSM));
 
 	NPC g6(420, 350);
-	g6.ySM = 52;
+	g6.ySM = 201;
 	g6.moveable = false;
 	g6.power = 1;
 	g6.sprite.setTexture(sprite_map);
 	g6.sprite.setTextureRect(IntRect(g6.xSM, g6.ySM, g6.wSM, g6.hSM));
 
 	NPC g7(150, 380);
-	g7.ySM = 52;
+	g7.ySM = 201;
 	g7.moveable = false;
 	g7.power = 1;
 	g7.sprite.setTexture(sprite_map);
 	g7.sprite.setTextureRect(IntRect(g7.xSM, g7.ySM, g7.wSM, g7.hSM));
 
 	NPC g8(370, 80);
-	g8.ySM = 52;
+	g8.ySM = 201;
 	g8.moveable = false;
 	g8.power = 1;
 	g8.sprite.setTexture(sprite_map);
@@ -365,6 +382,7 @@ int main()
 	NPC fox(450, 450);
 	fox.sprite.setTexture(sprite_map);
 	fox.power = 75;
+	fox.ySM = 501;
 	fox.sprite.setTextureRect(IntRect(fox.xSM, fox.ySM, fox.wSM, fox.hSM));
 
 
